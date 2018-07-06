@@ -1,8 +1,8 @@
-package com.spf.wx_order;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan("com.spf.*")
 @SpringBootApplication
 public class WxOrderApplication {
 

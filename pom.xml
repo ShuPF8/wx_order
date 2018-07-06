@@ -6,7 +6,14 @@
     <groupId>com.spf</groupId>
     <artifactId>wx_order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>core</module>
+        <module>model</module>
+        <module>service</module>
+        <module>mapper</module>
+        <module>web</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>wx_order</name>
     <description>Demo project for Spring Boot</description>
@@ -35,6 +42,21 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- utils 项目工具包  https://github.com/ShuPF8/utils  -->
+        <dependency>
+            <groupId>com.spf.utils</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
