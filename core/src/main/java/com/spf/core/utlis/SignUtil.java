@@ -19,8 +19,13 @@ public class SignUtil {
     public static String              input_charset = "utf-8";
     // 签名方式 不需修改
     public static String              sign_type     = "MD5";
-    public static long                timeout       = 60000;
-    public static final String secret = "winxin|order";
+
+    private static long                timeout       = 180000;
+
+    private static final String secret = "winxin|order";
+
+    private static final String AUTHOR = "weixin_order |";
+
 
     /**
      * 签名字符串
@@ -59,6 +64,20 @@ public class SignUtil {
         } else {
             return false;
         }
+    }
+
+    /**
+     *  handler 头信息验证
+     * @param sArray 参数
+     * @param handle 传入的头信息
+     * @return 签名结果
+     */
+    public static boolean handlerVerify(Map<String, Object> sArray,String handle) {
+        String handlerSign = AUTHOR + sArray.get("uri");
+        if (handle.isEmpty() || !handle.equals(DigestUtils.md5Hex(handlerSign))) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean verifyTimeStamp(String timeStamp) throws Exception {

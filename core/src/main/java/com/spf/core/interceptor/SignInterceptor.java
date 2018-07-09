@@ -13,6 +13,7 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,11 +26,13 @@ public class SignInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        Map<String, Object> handlerMap = new HashMap<>();
+        handlerMap.put("uri", request.getRequestURI());
+
         Map<String, Object> params = WebUtils.getParametersStartingWith(request,"");
-        Object sign = null;
         Object debug = null;
         if ((debug = params.get("debug"))!= null && debug.equals("wx_order_dedug")
-                || SignUtil.verify(params, "utf-8")) {
+                || (SignUtil.verify(params, "utf-8") && SignUtil.handlerVerify(handlerMap,request.getHeader("author")))) {
             return true;
         } else {
             ResultJson json = new ResultJson().fail(400,"不法请求");
@@ -38,7 +41,7 @@ public class SignInterceptor implements HandlerInterceptor {
             response.setContentType("application/json; charset=utf-8");
             response.getWriter().append(JSON.toJSONString(json));
 
-            return true;
+            return false;
         }
 
     }
@@ -50,5 +53,6 @@ public class SignInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
     }
+
 
 }
